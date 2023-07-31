@@ -1,82 +1,50 @@
-import { useState } from 'react';
 import './App.css';
-// import EjemploReloj from './EjemploReloj';
-import MostrarTexto from './MostrarTexto';
-// import ProyectarContenido from './ProyectarContedo';
-// import ProyectarContenido2 from './ProyectandoContenido2';
-// import ContenidoDinamico from './ContenidoDinamico';
-import FormularioTexto from './FormularioTexto';
-import EjemploUseEffect from './EjemploUseEffect';
-import ValorContext from './ValorContext';
+import { landingPageDTO } from './peliculas/peliculas.models';
+import ListadoPeliculas from './peliculas/ListadoPeliculas';
+import { useEffect, useState } from 'react';
+import Button from './utils/Button';
+
+
 
 function App() {
-  const [texto, setTexto] = useState('Valor por Defecto');
 
-  <ValorContext.Provider value={texto}>
+  const [peliculas, setPeliculas] = useState<landingPageDTO>({})
 
-  </ValorContext.Provider>
-  // const [cheked, setCheked] = useState(false);
-
-  // const calificaciones = [
-  //   {nombre:'Felipe', calificacion: 95},
-  //   {nombre:'Martín', calificacion: 85},
-  //   {nombre:'María', calificacion: 50},
-  // ]
-  
-  // const manejarClick = () => console.log("click");
-  const manejarKeyUp = (textoInput: string) => {
-    setTexto(textoInput);
-  }
-
-  // const parteIntermedia = <EjemploReloj />
-
-  // const estilo = {
-  //   backgroundColor: 'red', width: '50px', height: '50px', marginLeft: '1rem'
-  // }
-
-  // const parteInferior = <div style={estilo}></div>
-  const [cheked, setCheked] = useState(true);
+  useEffect (()=>{
+    const timerId = setTimeout(()=>{
+      setPeliculas({
+        enCartelera: [
+        {
+          id: 1, 
+          titulo: 'Spider-Man: Far from Home',
+          poster: 'https://images.ecestaticos.com/NWIXPyQ9IBCsjVnb8NcbkYYDMYo=/2x2:540x720/560x747/filters:fill(white):format(jpg)/f.elconfidencial.com%2Foriginal%2Fef5%2F125%2Fab5%2Fef5125ab51c11c9f7d1166f8f6979eba.jpg'
+        },
+        {
+          id: 2, 
+          titulo: 'Moana',
+          poster: 'https://www.smt.gob.ar/img/novedades/10617.jpg'
+        }
+      ],
+    proximosEstrenos: [
+      {
+        id: 3, 
+        titulo: 'Soul',
+        poster: 'https://lumiere-a.akamaihd.net/v1/images/soul_poster_4_4c70209a.jpeg'
+      }
+    ]})
+    }, 500);
+    return () => clearTimeout(timerId);
+  })
 
   return (
     <>
-      <h1 className='rojo'>Hola Mundo!</h1>
-
-      <ValorContext.Provider value={texto}>
-
-      </ValorContext.Provider>
-
-      <div>
-        <input type='checkbox' 
-          onChange={(e) => setCheked(e.currentTarget.checked)}
-          checked={cheked}/> Mostrar Componenete Use Efect
+    <div className='container'> 
+        <Button>Mi Componente Botón</Button>
+        <h3>En Cartelera</h3>
+        <ListadoPeliculas peliculas={peliculas.enCartelera}/>
+        <h3>Próximos Estrenos</h3>
+        <ListadoPeliculas peliculas={peliculas.proximosEstrenos}/>
       </div>
-
-      {cheked ? <EjemploUseEffect />: null} 
-
-      
-
-      {/* {calificaciones.map(cal => <ContenidoDinamico key={cal.nombre} {...cal} />)} */}
-
-      {/* <ProyectarContenido2
-        parteSuperior={<span>Este es un Mensaje del Componente Padre</span>}
-        parteIntermedia={parteIntermedia}
-        parteInferior={parteInferior}
-      /> */}
-
-      {/* <button 
-        onMouseEnter={()=> console.log("Entrando!")}
-        onClick={manejarClick}>Clickeame
-      </button> */}
-      <br></br>
-      <FormularioTexto manejarKeyUp={(e: string) => manejarKeyUp(e)} />
-      
-      <MostrarTexto texto={texto} />
-      <br></br>
-      {/* <div>
-        <input type='checkbox' 
-          onChange={(e) => setCheked(e.currentTarget.checked)}
-          checked={cheked}/> Este es un checkbox
-      </div> */}
     </>
   );
 }
